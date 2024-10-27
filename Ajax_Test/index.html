@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax</title>
+ 
+    <script>
+          function fetchData() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "data.php", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    displayData(data);
+                }
+            };
+            xhr.send();
+        }
+
+        function displayData(data) {
+            let output = "<ul>";
+            data.forEach(item => {
+                output += `<li>${item.first_name}: ${item.last_name}</li>`;
+            });
+            output += "</ul>";
+            document.getElementById("data-container").innerHTML = output;
+        }
+
+        setInterval(fetchData, 5000);// เรียกฟังก์ชัน fetchData ทุก ๆ 5 วินาที
+    </script>
+</head>
+<body  onload="fetchData()">
+    <h1>ข้อมูลจากฐานข้อมูล</h1>
+    <div id="data-container">Loading...</div>
+
+</body>
+</html>
